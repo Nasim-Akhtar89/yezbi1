@@ -10,7 +10,7 @@ const dbOptions = {
 async function connectToDatabase(app) {
   console.log("dburi : ", process.env.DBURI.slice(0, -1).replace(/^["'](.+(?=["']$))["']$/, "$1"));
 
-  const uri = process.env.DBURI.slice(0, -1).replace(/^["'](.+(?=["']$))["']$/, "$1");
+  const uri = process.env.DBURI.replace(";", "").replace(/^["'](.+(?=["']$))["']$/, "$1");
   try {
     dbConnectionVar = await mongoose.connect(uri, dbOptions);
     console.log("Database Connected...");
