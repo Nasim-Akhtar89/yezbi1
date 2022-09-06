@@ -12,11 +12,12 @@ async function connectToDatabase(app) {
 
   const uri = process.env.DBURI.replace(";", "").replace(/^["'](.+(?=["']$))["']$/, "$1");
   const port = process.env.DEV_PORT.replace(";", "");
+  const PORT = port ? port : 8000;
   try {
     dbConnectionVar = await mongoose.connect(uri, dbOptions);
     console.log("Database Connected...");
-    app.listen(8000 || port);
-    console.log("Server Listening either on Port :" + port + "     " + 8000);
+    app.listen(PORT);
+    console.log("Server Listening either on Port :", PORT);
   } catch (err) {
     console.log("Failed to connect database...");
     console.log("Either worng dbUri in .env");
