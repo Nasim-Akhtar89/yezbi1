@@ -117,7 +117,7 @@
 
 // new
 11): Delete single connection
-	--path: "/api/toggle/delete-link"
+	--path: "/api/connection/delete"
 	-- Request Variables: { email, connectionId(String) }
 	-- Required: { email, connectionId }
 	-- Request type: application/json
@@ -127,6 +127,61 @@
 
 12) Get All Connection:
 	-- No need for any endpoint as these are available in /api/get/data/all
+
+
+13): Set private mode
+	--path: "/api/toggle/privateMode"
+	-- Request Variables: { email, private(Boolean) }
+	-- Required: { email, private }
+	-- Request type: application/json
+	-- method: POST
+	-- Response: Object -> {message: "Private mode turned on/off" , private: true:false}/{give error message}, error(if card not found or if user not registered)
+	Note if private(true/false) not be there in request body then it will be false default
+
+
+
+14): User sign up
+	--path: "/api/user/signUp"
+	-- Request Variables: { email, password }
+	-- Required: { email, password }
+	-- Request type: application/json
+	-- method: POST
+	-- Response: Object -> Response body/{give error message}, error(user already exist or invalid email or password)
+
+14): User login
+	--path: "/api/user/login"
+	-- Request Variables: { email, password }
+	-- Required: { email, password }
+	-- Request type: application/json
+	-- method: POST
+	-- Response: Object -> Response body/{give error message}, error(wrong email or wrong password)
+
+
+15): User card count
+	--path: "/user/userCardCount"
+	-- Request Variables: { email }
+	-- Required: { email }
+	-- Request type: application/json
+	-- method: POST
+	-- Response: Object -> Response body object({message: "Cards", data: card})/error{ message: "No Card Found!"}
+
+/*================= ADMIN API's ==========================================*/
+
+1): Get all users
+	--path: "/api/admin/getAllUsers"
+	-- Request Variables: { premium, cardCount, dateFrom, dateTo, getCsvData }
+	-- Required: { premium, cardCount, dateFrom, dateTo, getCsvData }
+	-- Request type: application/json
+	-- method: POST
+	-- Response: Object -> Response body object({ message: "All Users", data: user("_id", "name", "email", "shortUserId"), csvFile: null/csvFile})/error{  message: "No Users Found!"}
+	Note: if request body
+			a> is empty then response will be all users 
+			b> is {premium: false} then response will be all freemium users 
+			c> is {premium: true} then response will be all premium users 
+			d> is {cardCount: greater than 1} then response will be all yezbi card holder users 
+			e> is {dateFrom: "YYYY-MM-DD" , dateTo:"YYYY-MM-DD"} then response will be all yezbi card holder users 
+			f> is {getCsvData:true} then response will be csv file along with users
+			will get response body as per combination of the above request variables
 
 
 #ae1e75
