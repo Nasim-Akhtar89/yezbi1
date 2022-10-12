@@ -126,7 +126,47 @@ const linksAppSupports = {
 	"soundcloud": {
 		icon: '<i class="fa-brands fa-soundcloud"></i>',
 		hrefType: ""
-	}
+	},
+	 address: {
+    icon: '<i class="fa-solid fa-location-dot"></i>',
+    hrefType: "",
+  },
+  calendy: {
+    icon: '<i class="fa-solid fa-calendar-days"></i>',
+    hrefType: "",
+  },
+  reviews: {
+    icon: '<i class="fa-solid fa-magnifying-glass-location"></i>',
+    hrefType: "",
+  },
+  applink: {
+    icon: '<i class="fa-solid fa-a"></i>',
+    hrefType: "",
+  },
+  booksy: {
+    icon: '<i class="fa-solid fa-book"></i>',
+    hrefType: "",
+  },
+  square: {
+    icon: '<i class="fa-regular fa-square"></i>',
+    hrefType: "",
+  },
+  linktree: {
+    icon: '<i class="fa-solid fa-link"></i>',
+    hrefType: "",
+  },
+  onlyfans: {
+    icon: '<i class="fa-solid fa-lock"></i>',
+    hrefType: "",
+  },
+  podacasts: {
+    icon: '<i class="fa-solid fa-podcast"></i>',
+    hrefType: "",
+  },
+  hoobe: {
+    icon: '<i class="fa-solid fa-basketball"></i>',
+    hrefType: "",
+  },
 };
 
 
