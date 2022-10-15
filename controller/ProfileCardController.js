@@ -63,7 +63,7 @@ module.exports.userProfileImageData = async function (req, res) {
     }
     // delete if already has image
     if (userProfileCard.profileImgUrl !== "" && !userProfileCard.profileImgUrl.includes("default-_-_-")) {
-      fs.unlink(userProfileCard.profileImgUrl, (err) => {
+      fs.unlink("public" + userProfileCard.profileImgUrl, (err) => {
         if (err) {
           throw err;
         }
@@ -119,7 +119,7 @@ module.exports.userCoverImageData = async function (req, res) {
     }
     // delete if already has image
     if (userProfileCard.coverImgUrl !== "" && !userProfileCard.coverImgUrl.includes("cover-_-_-")) {
-      fs.unlink(userProfileCard.coverImgUrl, (err) => {
+      fs.unlink("public" + userProfileCard.coverImgUrl, (err) => {
         if (err) {
           throw err;
         }
