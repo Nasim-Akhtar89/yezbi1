@@ -22,6 +22,7 @@ const { decodeToken, matchEmail } = require("../../middlewares");
 // POST ROUTES
 profileAuthRoute.post("/create/profile-card", userProfileCardCreation);
 profileAuthRoute.post("/store/data/profile-image", userProfileImageData);
+profileAuthRoute.post("/store/data/cover-image", userCoverImageData);
 
 profileAuthRoute.post("/get/data/all", userProfileData);
 
