@@ -25,6 +25,30 @@
 				<h1 class="admin_name">
 					<%= name %>
 				</h1>
+				<div class="info">
+				    <% if(location){ %>
+				    <div class="info_card">
+				      <a href="#" class="info_icon">
+					<i class="fa-solid fa-location-dot"></i>
+				      </a>
+				      <div class="info_detail">
+					<p class="info_title">Address</p>
+					<p class="info_link"><%= location %></p>
+				      </div>
+				    </div>
+				    <% } %> 
+				    <% if(bio){ %>
+				    <div class="info_card">
+				      <a href="#" class="info_icon">
+					<i class="fa-solid fa-user-tie"></i>
+				      </a>
+				      <div class="info_detail">
+					<p class="info_title">About</p>
+					<p class="info_link"><%= bio %></p>
+				      </div>
+				    </div>
+				    <% } %>
+				  </div>
 				<% if(!private) { %>
 					<div class="actions">
 						<% links.forEach(function(link) { %>
@@ -55,19 +79,7 @@
 				<% } %>
 			</div>
 		</div>
-		<div class="info">
-			<% if(!!location){ %>
-				<div class="info_card">
-					<a href="#" class="info_icon">	
-						<i class="fa-solid fa-location-dot"></i>
-					</a>
-					<div class="info_detail">
-						<p class="info_title">Address</p>
-						<p class="info_link"><%= location %></p>
-					</div>
-				</div>
-			<% } %>  
-		</div>
+		
 	</main>
 
 	<% if(!private && !zerolinks) { %>
