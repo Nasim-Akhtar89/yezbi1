@@ -39,7 +39,7 @@ module.exports.userProfileImageData = async function (req, res) {
       error: "No files were uploaded...",
     });
   }
-  let  imageFile  = req.files.undefined;
+  let imageFile = req.files.undefined;
   //   check request image file is uploaded correctly or
   if (!imageFormats.includes(imageFile.mimetype.split("/")[1].toLowerCase())) {
     return res.status(400).json({
@@ -58,6 +58,7 @@ module.exports.userProfileImageData = async function (req, res) {
     })
       .select("profileImgUrl")
       .exec();
+
     if (!userProfileCard) {
       throw new Error();
     }
@@ -98,7 +99,7 @@ module.exports.userCoverImageData = async function (req, res) {
       error: "No files were uploaded...",
     });
   }
-  let  imageFile  = req.files.undefined;
+  let imageFile = req.files.undefined;
   if (!imageFormats.includes(imageFile.mimetype.split("/")[1].toLowerCase())) {
     return res.status(400).json({
       fileWritten: false,

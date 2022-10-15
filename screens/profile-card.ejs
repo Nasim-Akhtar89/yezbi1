@@ -1,207 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>User Detail Card</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" type="text/css" href="/css/style.test.css">
-	<style type="text/css">
-		:root {
-			--cl-theme: <%= theme %>;
-			--cl-theme--light: <%= theme %>99;
-		}
-	</style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Detail Card</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" type="text/css" href="/css/style.test.css" />
+    <style type="text/css">
+      :root {
+        --cl-theme: <%= theme %>;
+        --cl-theme--light: <%= theme %>99;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="admin_banner">
+        <img class="admin_cover" src="<%= coverImgUrl %>" alt="<%= coverImgUrl %>" />
+      </div>
+      <div class="admin_card--wrapper">
+        <div class="admin_card">
+          <img class="admin_card--img" src="<%= profileImgUrl %>" alt="<%= profileImgUrl %>" />
+          <h1 class="admin_name"><%= name %></h1>
+          <div class="info">
+            <% if(location){ %>
+            <div class="info_card">
+              <a href="#" class="info_icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </a>
+              <div class="info_detail">
+                <p class="info_title">Address</p>
+                <p class="info_link"><%= location %></p>
+              </div>
+            </div>
+            <% } %> <% if(bio){ %>
+            <div class="info_card">
+              <a href="#" class="info_icon">
+                <i class="fa-solid fa-user-tie"></i>
+              </a>
+              <div class="info_detail">
+                <p class="info_title">About</p>
+                <p class="info_link"><%= bio %></p>
+              </div>
+            </div>
+            <% } %>
+          </div>
+          <% if(!private) { %>
+          <div class="actions">
+            <% links.forEach(function(link) { %>
+            <div class="action_card">
+              <a href="<%= linksAppSupports[link.linkType].hrefType %><%= link.linkValue %>" class="action_link whatsapp">
+                <%- linksAppSupports[link.linkType].icon %>
+              </a>
+              <p class="action_title"><%= link.linkName %></p>
+            </div>
+            <% }); %> <% if(zerolinks) { %>
+            <div class="text-warn">User has not added any link yet!</div>
+            <% } %>
+          </div>
+          <div class="admin_btns">
+            <% if(!zerolinks) { %>
+            <button id="open-popup" class="btn btn-primary">Exchange Contacts</button>
+            <% } %>
+          </div>
+          <% } else { %>
+          <div class="text-warn">User choose to hide identity!</div>
+          <% } %>
+        </div>
+      </div>
+    </main>
 
-	<main class="container">
-		<div class="admin_banner">
-			<img class="admin_cover" src="<%= coverImgUrl %>" alt="<%= coverImgUrl %>">
-		</div>
-		<div class="admin_card--wrapper">
-			<div class="admin_card">
-				<img class="admin_card--img" src="<%= profileImgUrl %>" alt="<%= profileImgUrl %>">
-				<h1 class="admin_name">
-					<%= name %>
-				</h1>
-				<div class="info">
-				    <% if(location){ %>
-				    <div class="info_card">
-				      <a href="#" class="info_icon">
-					<i class="fa-solid fa-location-dot"></i>
-				      </a>
-				      <div class="info_detail">
-					<p class="info_title">Address</p>
-					<p class="info_link"><%= location %></p>
-				      </div>
-				    </div>
-				    <% } %> 
-				    <% if(bio){ %>
-				    <div class="info_card">
-				      <a href="#" class="info_icon">
-					<i class="fa-solid fa-user-tie"></i>
-				      </a>
-				      <div class="info_detail">
-					<p class="info_title">About</p>
-					<p class="info_link"><%= bio %></p>
-				      </div>
-				    </div>
-				    <% } %>
-				  </div>
-				<% if(!private) { %>
-					<div class="actions">
-						<% links.forEach(function(link) { %>
-							<div class="action_card">
-								<a href="<%= linksAppSupports[link.linkType].hrefType %><%= link.linkValue %>" class="action_link whatsapp">
-									<%- linksAppSupports[link.linkType].icon %>
-								</a>
-								<p class="action_title"><%= link.linkName %></p>
-							</div>
-						<% }); %>
-						<% if(zerolinks) { %>
-							<div class="text-warn">
-								User has not added any link yet!
-							</div>
-						<% } %>
-					</div>
-					<div class="admin_btns">
-						<% if(!zerolinks) { %>
-							<button id="open-popup" class="btn btn-primary">
-								Exchange Contacts
-							</button>
-						<% } %>
-					</div>
-				<% } else { %>
-					<div class="text-warn">
-						User choose to hide identity!
-					</div>
-				<% } %>
-			</div>
-		</div>
-		
-	</main>
+    <% if(!private && !zerolinks) { %>
+    <div class="popup">
+      <div class="popup_wrapper">
+        <form action="/connection/add" method="POST" class="popup_form">
+          <button class="close">&times;</button>
+          <h2>Share your info with <%= name %></h2>
+          <input type="hidden" name="id" value="<%= _id %>" />
+          <div class="form-fields">
+            <div class="form-check">
+              <input type="checkbox" name="existing_user" id="exist" />
+              <label for="exist">Already Using Yuzbi</label>
+            </div>
+            <div class="form-row" id="email_row">
+              <input type="email" name="email" required placeholder=" " />
+              <label>
+                <span>Email</span>
+              </label>
+            </div>
+            <div class="form-row">
+              <input type="text" id="name" name="name" required pattern="[\w ]+" placeholder=" " />
+              <label>
+                <span>Name</span>
+              </label>
+            </div>
+            <div class="form-row">
+              <input type="text" id="number" name="number" required pattern="[0-9+]+" placeholder=" " />
+              <label>
+                <span>Number</span>
+              </label>
+            </div>
+            <div class="form-row">
+              <input type="text" name="jobTitle" pattern="[\w ]+" placeholder=" " />
+              <label>
+                <span>Job Title</span>
+              </label>
+            </div>
+            <div class="form-row">
+              <input type="text" name="company" pattern="[\w ]+" placeholder=" " />
+              <label>
+                <span>Company</span>
+              </label>
+            </div>
+            <div class="form-row">
+              <input type="text" name="note" pattern="[\w ]+" placeholder=" " />
+              <label>
+                <span>Note</span>
+              </label>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-theme" type="submit">Connect</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-	<% if(!private && !zerolinks) { %>
-		<div class="popup">
-			<div class="popup_wrapper">
-				<form action="/connection/add" method="POST" class="popup_form">
-					<button class="close">&times;</button>
-					<h2>Share your info with <%= name %></h2>
-					<input type="hidden" name="id" value="<%= _id %>" />
-					<div class="form-fields">
-						<div class="form-check">
-							<input type="checkbox" name="existing_user" id="exist" />
-							<label for="exist">Already Using Yuzbi</label>
-						</div>
-						<div class="form-row" id="email_row">
-							<input type="email" name="email" required placeholder=" " />
-							<label>
-								<span>Email</span>
-							</label>
-						</div>
-						<div class="form-row">
-							<input type="text" id="name" name="name" required pattern="[\w ]+" placeholder=" " />
-							<label>
-								<span>Name</span>
-							</label>
-						</div>
-						<div class="form-row">
-							<input type="text" id="number" name="number" required pattern="[0-9+]+" placeholder=" " />
-							<label>
-								<span>Number</span>
-							</label>
-						</div>
-						<div class="form-row">
-							<input type="text" name="jobTitle" pattern="[\w ]+" placeholder=" " />
-							<label>
-								<span>Job Title</span>
-							</label>
-						</div>
-						<div class="form-row">
-							<input type="text" name="company" pattern="[\w ]+" placeholder=" " />
-							<label>
-								<span>Company</span>
-							</label>
-						</div>
-						<div class="form-row">
-							<input type="text" name="note" pattern="[\w ]+" placeholder=" " />
-							<label>
-								<span>Note</span>
-							</label>
-						</div>
-					</div>
-					<div class="btn-row">
-						<button class="btn btn-theme" type="submit">Connect</button>
-					</div>
-				</form>
-			</div>
-		</div>
+    <script type="text/javascript">
+      const yuzbiUserCheckbox = document.querySelector("#exist");
+      const allFieldsExceptEmail = document.querySelectorAll(".popup_form .form-row:not(#email_row)");
 
-		<script type="text/javascript">
-			const yuzbiUserCheckbox = document.querySelector('#exist');
-			const allFieldsExceptEmail = document.querySelectorAll('.popup_form .form-row:not(#email_row)');
+      yuzbiUserCheckbox.addEventListener("change", (e) => {
+        let checkVal = e.target.checked;
+        allFieldsExceptEmail.forEach((el) => {
+          el.classList.toggle("disable");
+          if (checkVal) {
+            el.querySelector("input").setAttribute("disabled", "");
+          } else {
+            el.querySelector("input").removeAttribute("disabled", "");
+          }
+        });
 
-			yuzbiUserCheckbox.addEventListener('change', e => {
-				let checkVal = e.target.checked;
-				allFieldsExceptEmail.forEach(el => {
-					el.classList.toggle('disable');
-					if(checkVal) {
-						el.querySelector('input').setAttribute('disabled', '');
-					} else {
-						el.querySelector('input').removeAttribute('disabled', '');
-					}
-				});
+        if (checkVal) {
+          document.querySelector("#number").removeAttribute("required", "");
+          document.querySelector("#name").removeAttribute("required", "");
+        } else {
+          document.querySelector("#number").setAttribute("required", "");
+          document.querySelector("#name").setAttribute("required", "");
+        }
+      });
 
-				if(checkVal) {
-					document.querySelector('#number').removeAttribute('required', '');
-					document.querySelector('#name').removeAttribute('required', '');
-				} else {
-					document.querySelector('#number').setAttribute('required', '');
-					document.querySelector('#name').setAttribute('required', '');
-				}
-			});
+      document.querySelector(".popup_form .close").addEventListener("click", () => {
+        document.querySelector(".popup").classList.remove("active");
+      });
 
-			document.querySelector('.popup_form .close').addEventListener('click', () => {
-				document.querySelector('.popup').classList.remove('active');
-			});
+      onload = () => {
+        setTimeout(() => {
+          document.querySelector(".popup").classList.add("active");
+        }, 2000);
+      };
 
-			onload = () => {
-				setTimeout(() => {
-					document.querySelector('.popup').classList.add('active');
-				}, 2000);
-			}
+      document.querySelector(".popup_form").addEventListener("submit", (e) => {
+        document.querySelector(".popup").classList.remove("active");
+        setTimeout(() => {
+          e.target.reset();
+          allFieldsExceptEmail.forEach((el) => {
+            el.classList.remove("disable");
+            el.querySelector("input").removeAttribute("disabled", "");
+          });
+        }, 500);
+      });
 
-			document.querySelector('.popup_form').addEventListener('submit', e => {
-				document.querySelector('.popup').classList.remove('active');
-				setTimeout(() => {
-					e.target.reset();
-					allFieldsExceptEmail.forEach(el => {
-						el.classList.remove('disable');
-						el.querySelector('input').removeAttribute('disabled', '');
-					});
-				}, 500)
-			});
+      document.querySelector("#open-popup").addEventListener("click", () => {
+        document.querySelector(".popup").classList.add("active");
+      });
+    </script>
+    <% } %>
 
-			document.querySelector('#open-popup').addEventListener('click', () => {
-				document.querySelector('.popup').classList.add('active');
-			});
-		</script>
-	<% } %>
+    <script type="text/javascript">
+      // function resizeCoverImage() {
+      // 	document.querySelector('.admin_cover').style.height = document.querySelector('.admin_cover').getBoundingClientRect().width * 0.375 + 'px';
+      // }
 
-	<script type="text/javascript">
-		// function resizeCoverImage() {
-		// 	document.querySelector('.admin_cover').style.height = document.querySelector('.admin_cover').getBoundingClientRect().width * 0.375 + 'px';
-		// }
+      // onload = function() {
+      // 	resizeCoverImage();
+      // }
 
-		// onload = function() {
-		// 	resizeCoverImage();
-		// }
-
-		// onresize = function() {
-		// 	resizeCoverImage();
-		// }
-	</script>
-
-</body>
+      // onresize = function() {
+      // 	resizeCoverImage();
+      // }
+    </script>
+  </body>
 </html>
