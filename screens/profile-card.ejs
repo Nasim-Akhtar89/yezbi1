@@ -22,11 +22,21 @@
   <body>
     <main class="container">
       <div class="admin_banner">
-        <img class="admin_cover" src="<%= coverImgUrl %>" alt="<%= coverImgUrl %>" />
+        <img
+          class="admin_cover"
+          src="data:<%=coverImg.contentType%>;base64,
+		<%=coverImg.data.toString('base64')%>"
+          alt="<%= coverImgUrl %>"
+        />
       </div>
       <div class="admin_card--wrapper">
         <div class="admin_card">
-          <img class="admin_card--img" src="<%= profileImgUrl %>" alt="<%= profileImgUrl %>" />
+          <img
+            class="admin_card--img"
+            src="data:<%=imgData.contentType%>;base64,
+		  <%=imgData.data.toString('base64')%>"
+            alt="<%= profileImgUrl %>"
+          />
           <h1 class="admin_name"><%= name %></h1>
           <div class="info">
             <% if(location){ %>

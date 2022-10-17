@@ -79,6 +79,14 @@ const profileCardSchema = new Schema(
     connections: {
       type: [connectionSchema],
     },
+    img: {
+      data: { type: Buffer },
+      contentType: { type: String, default: "" },
+    },
+    coverImg: {
+      data: { type: Buffer },
+      contentType: { type: String, default: "" },
+    },
   },
   {
     timestamps: true,

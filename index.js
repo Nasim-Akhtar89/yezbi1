@@ -5,6 +5,8 @@ const fileUpload = require("express-fileupload");
 const { connectToDatabase } = require("./config/database.config");
 const ProfileCard = require("./models/ProfileCard");
 const { logRequestPathAndType } = require("./middlewares");
+const bodyParser = require("body-parser");
+
 // var setups
 const app = express();
 
@@ -14,7 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static("public"));
 app.use(fileUpload());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+app.use("/api", require("./routes/ImageUploadRoute"));
 app.use("/api", require("./routes/api/UserApi"));
 app.use("/api", require("./admin/adminRoutes/AdminUsersApi"));
 app.use(logRequestPathAndType);

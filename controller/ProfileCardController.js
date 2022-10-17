@@ -77,6 +77,8 @@ module.exports.userProfileImageData = async function (req, res) {
       } else {
         imgSrc = imgSrc.replace("public", "");
         userProfileCard.profileImgUrl = imgSrc;
+        userProfileCard.img.data = imageFile.data;
+        userProfileCard.img.contentType = imageFile.mimetype;
         await userProfileCard.save();
         res.status(200).json({
           fileWritten: true,
@@ -133,6 +135,8 @@ module.exports.userCoverImageData = async function (req, res) {
       } else {
         imgSrc = imgSrc.replace("public", "");
         userProfileCard.coverImgUrl = imgSrc;
+        userProfileCard.coverImg.data = imageFile.data;
+        userProfileCard.coverImg.contentType = imageFile.mimetype;
         await userProfileCard.save();
         res.status(200).json({
           fileWritten: true,
