@@ -79,7 +79,7 @@ const profileCardSchema = new Schema(
     connections: {
       type: [connectionSchema],
     },
-    img: {
+    profileImg: {
       data: { type: Buffer },
       contentType: { type: String, default: "" },
     },

@@ -63,28 +63,35 @@ module.exports.userProfileImageData = async function (req, res) {
       throw new Error();
     }
     // delete if already has image
-    if (userProfileCard.profileImgUrl !== "" && !userProfileCard.profileImgUrl.includes("default-_-_-")) {
-      fs.unlink("public" + userProfileCard.profileImgUrl, (err) => {
-        if (err) {
-          throw err;
-        }
-      });
-    }
-    let imgSrc = `public/profile-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${imageFile.mimetype.split("/")[1]}`;
-    fs.writeFile(imgSrc, imageFile.data, async (err, file) => {
-      if (err) {
-        throw err;
-      } else {
-        imgSrc = imgSrc.replace("public", "");
-        userProfileCard.profileImgUrl = imgSrc;
-        userProfileCard.img.data = imageFile.data;
-        userProfileCard.img.contentType = imageFile.mimetype;
-        await userProfileCard.save();
-        res.status(200).json({
-          fileWritten: true,
-          imageUrl: `${imgSrc}`,
-        });
-      }
+    // if (userProfileCard.profileImgUrl !== "" && !userProfileCard.profileImgUrl.includes("default-_-_-")) {
+    //   fs.unlink("public" + userProfileCard.profileImgUrl, (err) => {
+    //     if (err) {
+    //       throw err;
+    //     }
+    //   });
+    // }
+    // let imgSrc = `public/profile-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${imageFile.mimetype.split("/")[1]}`;
+    // fs.writeFile(imageFile.data, async (err, file) => {
+    //   if (err) {
+    //     throw err;
+    //   } else {
+    //     // imgSrc = imgSrc.replace("public", "");
+    //     // userProfileCard.profileImgUrl = imgSrc;
+    //     userProfileCard.profileImg.data = imageFile.data;
+    //     userProfileCard.profileImg.contentType = imageFile.mimetype;
+    //     await userProfileCard.save();
+    //     res.status(200).json({
+    //       fileWritten: true,
+    //       // imageUrl: `${imgSrc}`,
+    //     });
+    //   }
+    // });
+    userProfileCard.profileImg.data = imageFile.data;
+    userProfileCard.profileImg.contentType = imageFile.mimetype;
+    await userProfileCard.save();
+    res.status(200).json({
+      fileWritten: true,
+      // imageUrl: `${imgSrc}`,
     });
   } catch (err) {
     res.status(500).json({
@@ -121,27 +128,33 @@ module.exports.userCoverImageData = async function (req, res) {
       throw new Error();
     }
     // delete if already has image
-    if (userProfileCard.coverImgUrl !== "" && !userProfileCard.coverImgUrl.includes("cover-_-_-")) {
-      fs.unlink("public" + userProfileCard.coverImgUrl, (err) => {
-        if (err) {
-          throw err;
-        }
-      });
-    }
-    let imgSrc = `public/cover-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${imageFile.mimetype.split("/")[1]}`;
-    fs.writeFile(imgSrc, imageFile.data, async (err, file) => {
-      if (err) {
-        throw err;
-      } else {
-        imgSrc = imgSrc.replace("public", "");
-        userProfileCard.coverImgUrl = imgSrc;
-        userProfileCard.coverImg.data = imageFile.data;
-        userProfileCard.coverImg.contentType = imageFile.mimetype;
-        await userProfileCard.save();
-        res.status(200).json({
-          fileWritten: true,
-        });
-      }
+    // if (userProfileCard.coverImgUrl !== "" && !userProfileCard.coverImgUrl.includes("cover-_-_-")) {
+    //   fs.unlink("public" + userProfileCard.coverImgUrl, (err) => {
+    //     if (err) {
+    //       throw err;
+    //     }
+    //   });
+    // }
+    // let imgSrc = `public/cover-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${imageFile.mimetype.split("/")[1]}`;
+    // fs.writeFile(imgSrc, imageFile.data, async (err, file) => {
+    //   if (err) {
+    //     throw err;
+    //   } else {
+    //     imgSrc = imgSrc.replace("public", "");
+    //     userProfileCard.coverImgUrl = imgSrc;
+    //     userProfileCard.coverImg.data = imageFile.data;
+    //     userProfileCard.coverImg.contentType = imageFile.mimetype;
+    //     await userProfileCard.save();
+    //     res.status(200).json({
+    //       fileWritten: true,
+    //     });
+    //   }
+    // });
+    userProfileCard.coverImg.data = imageFile.data;
+    userProfileCard.coverImg.contentType = imageFile.mimetype;
+    await userProfileCard.save();
+    res.status(200).json({
+      fileWritten: true,
     });
   } catch (err) {
     res.status(500).json({
@@ -330,7 +343,6 @@ module.exports.updateEditProfileObselete = async function (req, res) {
 
     if (name || location || bio || theme || businessChanged) {
       await usrProfileCard.save();
-      console.log("testing...");
     }
 
     res.status(200).json({
@@ -429,13 +441,10 @@ module.exports.deleteLink = async function (req, res) {
 
 module.exports.updateEditProfile = async function (req, res) {
   let { email, name, location, bio, businessClient, theme } = req.body;
-  console.log(req.body);
-  console.log(name, email, location, bio, businessClient, theme, 13);
 
-  let { profileImage = null, coverImage = null } = req.files || {};
+  // let { profileImage = null, coverImage = null } = req.files || {};
 
   businessClient = businessClient === "false" || !businessClient ? false : true;
-  console.log(businessClient, 12);
 
   try {
     if (!email) {
@@ -471,50 +480,48 @@ module.exports.updateEditProfile = async function (req, res) {
 
     // first we have mimetypes checks so no one upload file other than in format list
 
-    if (!!profileImage) {
-      if (!imageFormats.includes(profileImage.mimetype.split("/")[1].toLowerCase())) {
-        throw new Error();
-      }
-    }
-    if (!!coverImage) {
-      if (!imageFormats.includes(coverImage.mimetype.split("/")[1].toLowerCase())) {
-        throw new Error();
-      }
-    }
+    // if (!!profileImage) {
+    //   if (!imageFormats.includes(profileImage.mimetype.split("/")[1].toLowerCase())) {
+    //     throw new Error();
+    //   }
+    // }
+    // if (!!coverImage) {
+    //   if (!imageFormats.includes(coverImage.mimetype.split("/")[1].toLowerCase())) {
+    //     throw new Error();
+    //   }
+    // }
 
-    if (!!profileImage) {
-      // delete already uploaded image
-      if (usrProfileCard.profileImgUrl !== "" && !usrProfileCard.profileImgUrl.includes("default-_-_-")) {
-        fs.unlink("public" + usrProfileCard.profileImgUrl, (err) => {
-          if (err) {
-            throw err;
-          }
-        });
-      }
-      // save new image
-      let imgSrc = `public/profile-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${profileImage.mimetype.split("/")[1]}`;
-      fs.writeFileSync(imgSrc, profileImage.data);
-      imgSrc = imgSrc.replace("public", "");
-      usrProfileCard.profileImgUrl = imgSrc;
-      console.log(imgSrc);
-    }
+    // if (!!profileImage) {
+    //   // delete already uploaded image
+    //   if (usrProfileCard.profileImgUrl !== "" && !usrProfileCard.profileImgUrl.includes("default-_-_-")) {
+    //     fs.unlink("public" + usrProfileCard.profileImgUrl, (err) => {
+    //       if (err) {
+    //         throw err;
+    //       }
+    //     });
+    //   }
+    //   // save new image
+    //   let imgSrc = `public/profile-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${profileImage.mimetype.split("/")[1]}`;
+    //   fs.writeFileSync(imgSrc, profileImage.data);
+    //   imgSrc = imgSrc.replace("public", "");
+    //   usrProfileCard.profileImgUrl = imgSrc;
+    // }
 
-    if (!!coverImage) {
-      // delete already uploaded image
-      if (usrProfileCard.coverImgUrl !== "" && !usrProfileCard.coverImgUrl.includes("cover-_-_-")) {
-        fs.unlink("public" + usrProfileCard.coverImgUrl, (err) => {
-          if (err) {
-            throw err;
-          }
-        });
-      }
-      // save new image
-      let imgSrc = `public/cover-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${coverImage.mimetype.split("/")[1]}`;
-      fs.writeFileSync(imgSrc, coverImage.data);
-      imgSrc = imgSrc.replace("public", "");
-      usrProfileCard.coverImgUrl = imgSrc;
-      console.log(imgSrc);
-    }
+    // if (!!coverImage) {
+    //   // delete already uploaded image
+    //   if (usrProfileCard.coverImgUrl !== "" && !usrProfileCard.coverImgUrl.includes("cover-_-_-")) {
+    //     fs.unlink("public" + usrProfileCard.coverImgUrl, (err) => {
+    //       if (err) {
+    //         throw err;
+    //       }
+    //     });
+    //   }
+    //   // save new image
+    //   let imgSrc = `public/cover-images/IMG-${email.split("@")[0]}-${new ShortUniqueId({ length: 10 })()}.${coverImage.mimetype.split("/")[1]}`;
+    //   fs.writeFileSync(imgSrc, coverImage.data);
+    //   imgSrc = imgSrc.replace("public", "");
+    //   usrProfileCard.coverImgUrl = imgSrc;
+    // }
 
     /*
      ** textual data checks
@@ -558,7 +565,7 @@ module.exports.updateEditProfile = async function (req, res) {
      ** textual data checks end
      */
 
-    if (name || location || bio || theme || businessChanged || profileImage || coverImage) {
+    if (name || location || bio || theme || businessChanged) {
       await usrProfileCard.save();
     }
 
@@ -575,7 +582,6 @@ module.exports.updateEditProfile = async function (req, res) {
       },
     });
   } catch (err) {
-    console.log("a", err);
     res.status(500).json({
       profileUpdated: false,
       data: null,
@@ -675,7 +681,6 @@ module.exports.deleteConnection = async function (req, res) {
       connection: usrProfileCard.connections,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       connectionDeleted: false,
       connection: null,
@@ -710,7 +715,6 @@ module.exports.getConnection = async function (req, res) {
 
 module.exports.togglePrivateMode = async function (req, res) {
   let { email = "", private } = req.body;
-  console.log(private);
   try {
     if (!email) {
       throw new Error();

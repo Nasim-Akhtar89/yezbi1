@@ -19,7 +19,6 @@ app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use("/api", require("./routes/ImageUploadRoute"));
 app.use("/api", require("./routes/api/UserApi"));
 app.use("/api", require("./admin/adminRoutes/AdminUsersApi"));
 app.use(logRequestPathAndType);

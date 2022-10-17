@@ -32,10 +32,12 @@ function makeVcard(name, email, number, img, company, jobTitle, note, website) {
 module.exports.getProfileCard = async (req, res) => {
   let { sid } = req.params;
   try {
-    const { _id, name, email, coverImgUrl, profileImgUrl, theme, location, links, private, businessClient, bio, img, coverImg } =
+    const { _id, name, email, coverImgUrl, profileImgUrl, theme, location, links, private, businessClient, bio, profileImg, coverImg } =
       await ProfileCard.findOne({
         shortUserId: sid,
       }).select("-connections");
+
+    console.log("ProfileImg", profileImg);
 
     const linksFiltered = links.filter(businessClient ? (l) => l.isBusiness && l.visibleOnProfile : (l) => !l.isBusiness && l.visibleOnProfile);
     const zerolinks = !linksFiltered.length;
@@ -53,7 +55,7 @@ module.exports.getProfileCard = async (req, res) => {
       links: linksFiltered,
       zerolinks,
       private,
-      imgData: img,
+      profileImg,
       coverImg,
     });
   } catch (err) {
