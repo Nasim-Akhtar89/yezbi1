@@ -33,6 +33,7 @@ module.exports.userProfileCardCreation = async function (req, res) {
 };
 
 module.exports.userProfileImageData = async function (req, res) {
+  console.log("userProfileImageData", req.files);
   if (!req.files) {
     return res.status(400).json({
       fileWritten: false,
@@ -102,6 +103,7 @@ module.exports.userProfileImageData = async function (req, res) {
 };
 
 module.exports.userCoverImageData = async function (req, res) {
+  console.log("userCoverImageData", req.files);
   if (!req.files) {
     return res.status(400).json({
       fileWritten: false,
