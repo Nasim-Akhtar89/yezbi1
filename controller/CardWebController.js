@@ -37,7 +37,7 @@ module.exports.getProfileCard = async (req, res) => {
         shortUserId: sid,
       }).select("-connections");
 
-    console.log("ProfileImg", profileImg);
+    // console.log("ProfileImg", profileImg);
 
     const linksFiltered = links.filter(businessClient ? (l) => l.isBusiness && l.visibleOnProfile : (l) => !l.isBusiness && l.visibleOnProfile);
     const zerolinks = !linksFiltered.length;
@@ -64,7 +64,7 @@ module.exports.getProfileCard = async (req, res) => {
 };
 
 module.exports.addConnection = async function (req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   let { id = "", name = "", email = "", number = "", jobTitle = "", company = "", note = "", existing_user = false } = req.body;
 
   // res.json({ ...req.body });
@@ -162,20 +162,28 @@ module.exports.addConnection = async function (req, res) {
 
 module.exports.userCardCount = async (req, res) => {
   const { email } = req.body;
-  let userProfileCard = await ProfileCard.findOne({ email: email }).exec();
-  console.log(userProfileCard);
-  userProfileCard.cardCount = userProfileCard.cardCount + 1;
-  await userProfileCard
-    .save()
-    .then((card) => {
-      if (card && card.length != 0) {
-        console.log(card);
-        return res.status(200).send({ message: "Cards", data: card });
-      } else {
-        return res.status(404).send({ message: "No Card Found!" });
-      }
-    })
-    .catch((err) => {
-      return res.status(400).send({ message: err.message });
-    });
+  if (email === undefined || email === null || email === "") {
+    return res.status(400).send({ message: "Please enter a valid email address" });
+  } else {
+    let userProfileCard = await ProfileCard.findOne({ email: email }).select("cardCount").exec();
+    // console.log(userProfileCard);
+    if (userProfileCard) {
+      userProfileCard.cardCount = userProfileCard.cardCount + 1;
+      await userProfileCard
+        .save()
+        .then((card) => {
+          if (card && card.length != 0) {
+            // console.log(card);
+            return res.status(200).send({ message: "Cards count", data: card.cardCount });
+          } else {
+            return res.status(404).send({ message: "No Card Found!" });
+          }
+        })
+        .catch((err) => {
+          return res.status(400).send({ message: err.message });
+        });
+    } else {
+      return res.status(404).send({ message: "No Card Found!" });
+    }
+  }
 };

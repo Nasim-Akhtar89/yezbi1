@@ -1,5 +1,6 @@
 const ProfileCard = require("../models/ProfileCard");
 const ShortUniqueId = require("short-unique-id");
+const sharp = require("sharp");
 const fs = require("fs");
 
 const imageFormats = ["jpg", "png", "jpeg"];
@@ -87,7 +88,9 @@ module.exports.userProfileImageData = async function (req, res) {
     //     });
     //   }
     // });
-    userProfileCard.profileImg.data = imageFile.data;
+
+    const buffer = await sharp(imageFile.data).resize({ width: 250, height: 250 }).toBuffer();
+    userProfileCard.profileImg.data = buffer;
     userProfileCard.profileImg.contentType = imageFile.mimetype;
     await userProfileCard.save();
     res.status(200).json({
@@ -152,7 +155,9 @@ module.exports.userCoverImageData = async function (req, res) {
     //     });
     //   }
     // });
-    userProfileCard.coverImg.data = imageFile.data;
+
+    const buffer = await sharp(imageFile.data).resize({ width: 500, height: 250 }).toBuffer();
+    userProfileCard.coverImg.data = buffer;
     userProfileCard.coverImg.contentType = imageFile.mimetype;
     await userProfileCard.save();
     res.status(200).json({
@@ -189,6 +194,7 @@ module.exports.userProfileData = async function (req, res) {
 };
 
 module.exports.storeLink = async function (req, res) {
+  console.log(req.body);
   let { email = "", linkName = "", linkType = "", linkValue = "", isBusiness = false } = req.body;
   try {
     if (!email || !linkType || !linkValue) {
@@ -197,7 +203,7 @@ module.exports.storeLink = async function (req, res) {
     if (!linkName) {
       linkName = linkType;
     }
-    const usrProfileCard = await ProfileCard.findOne({ email }).select("links premium").exec();
+    const usrProfileCard = await ProfileCard.findOne({ email }).select("links  premium").exec();
     if (!usrProfileCard) {
       throw new Error();
     }
@@ -207,6 +213,7 @@ module.exports.storeLink = async function (req, res) {
         links: null,
         error: "Buy Premium to use Business Links functionality!",
       });
+      // return;
     }
 
     //  here we have to check if the link is already exist or not
@@ -716,12 +723,19 @@ module.exports.getConnection = async function (req, res) {
 // togglePrivateMode
 
 module.exports.togglePrivateMode = async function (req, res) {
-  let { email = "", private } = req.body;
+  let { email = "", private, businessClient } = req.body;
+  console.log(req.body);
   try {
     if (!email) {
       throw new Error();
     }
-    const usrProfileCard = await ProfileCard.findOneAndUpdate({ email }, { private: private ? private : false }, { new: true });
+    const usrProfileCard = await ProfileCard.findOneAndUpdate(
+      { email },
+      { private: private ? private : false, businessClient: businessClient ? businessClient : false },
+      // { },
+      { new: true }
+    );
+    // console.log(usrProfileCard);
     if (!usrProfileCard) {
       throw new Error();
     }
@@ -731,6 +745,7 @@ module.exports.togglePrivateMode = async function (req, res) {
     res.status(200).json({
       message: "Private mode turned " + (usrProfileCard.private ? "on" : "off"),
       private: usrProfileCard.private,
+      businessClient: usrProfileCard.businessClient,
     });
   } catch (err) {
     res.status(500).json({
